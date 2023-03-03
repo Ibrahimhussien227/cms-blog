@@ -3,7 +3,7 @@
                                 <label for="cat_title">Edit Category</label>
 
                                 <?php if (isset($_GET["edit"])) {
-                                  $cat_id = $_GET["edit"];
+                                  $cat_id = escape($_GET["edit"]);
 
                                   $query = "SELECT * FROM categories WHERE cat_id = {$cat_id} ";
                                   $select_categories_id = mysqli_query(
@@ -31,7 +31,7 @@
                                 } ?>
 
                                 <?php if (isset($_POST["update_category"])) {
-                                  $cat_title = $_POST["cat_title"];
+                                  $cat_title = escape($_POST["cat_title"]);
 
                                   $edit_query = "UPDATE categories SET cat_title = '{$cat_title}' WHERE cat_id = {$cat_id} ";
                                   $delte_query = mysqli_query(

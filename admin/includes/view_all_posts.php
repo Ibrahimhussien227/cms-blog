@@ -162,7 +162,7 @@
 
 <?php
 if (isset($_GET["delete"])) {
-  $post_id = $_GET["delete"];
+  $post_id = escape($_GET["post_id"]);
 
   $query = "DELETE FROM posts WHERE post_id = {$post_id} ";
   $delete_query = mysqli_query($connection, $query);
@@ -173,12 +173,10 @@ if (isset($_GET["delete"])) {
 }
 
 if (isset($_GET["reset"])) {
-  $post_id = $_GET["reset"];
+  $post_id = escape($_GET["reset"]);
 
   $query =
-    "UPDATE posts SET post_view_count = 0 WHERE post_id =" .
-    mysqli_real_escape_string($connection, $_GET["reset"]) .
-    "";
+    "UPDATE posts SET post_view_count = 0 WHERE post_id =" . $post_id . "";
   $reset_query = mysqli_query($connection, $query);
 
   header("Location: posts.php");

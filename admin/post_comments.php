@@ -18,7 +18,7 @@
                         </h1>
 
 <?php if (isset($_POST["checkBoxArray"])) {
-  foreach ($_POST["checkBoxArray"] as $commentValueId) {
+  foreach (escape($_POST["checkBoxArray"]) as $commentValueId) {
     $bulk_options = $_POST["bulk_options"];
 
     switch ($bulk_options) {
@@ -83,7 +83,7 @@
       <?php
       $query =
         "SELECT * FROM comments WHERE comment_post_id =" .
-        mysqli_escape_string($connection, $_GET["id"]) .
+        escape($_GET["id"]) .
         " ";
       $select_comments = mysqli_query($connection, $query);
 
@@ -134,7 +134,7 @@
         echo "<td><a href='comments.php?approve={$comment_id}'>Approve</a></td>";
         echo "<td><a href='comments.php?unapprove={$comment_id}'>Unapprove</a></td>";
         echo "<td><a href='post_comments.php?delete={$comment_id}&id=" .
-          mysqli_real_escape_string($connection, $_GET["id"]) .
+          $_GET["id"] .
           "'>Delete</a></td>";
         echo "</tr>";
 
@@ -147,7 +147,7 @@
 
 <?php
 if (isset($_GET["approve"])) {
-  $comment_id = $_GET["approve"];
+  $comment_id = escape($_GET["approve"]);
 
   $query = "UPDATE comments SET comment_status = 'approved' WHERE comment_id = {$comment_id} ";
   $approve_comment_query = mysqli_query($connection, $query);
@@ -158,7 +158,7 @@ if (isset($_GET["approve"])) {
 }
 
 if (isset($_GET["unapprove"])) {
-  $comment_id = $_GET["unapprove"];
+  $comment_id = escape($_GET["unapprove"]);
 
   $query = "UPDATE comments SET comment_status = 'unapproved' WHERE comment_id = {$comment_id} ";
   $unapprove_comment_query = mysqli_query($connection, $query);
@@ -169,16 +169,12 @@ if (isset($_GET["unapprove"])) {
 }
 
 if (isset($_GET["delete"])) {
-  $comment_id = $_GET["delete"];
+  $comment_id = escape($_GET["delete"]);
 
   $query = "DELETE FROM comments WHERE comment_id = {$comment_id} ";
   $delete_query = mysqli_query($connection, $query);
 
-  header(
-    "Location: post_comments.php?id=" .
-      mysqli_real_escape_string($connection, $_GET["id"]) .
-      " "
-  );
+  header("Location: post_comments.php?id=" . $_GET["id"] . " ");
 
   confirmQuery($delete_query);
 }

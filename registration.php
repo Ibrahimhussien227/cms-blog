@@ -2,13 +2,10 @@
 <?php include "includes/header.php"; ?>
 
 <?php if (isset($_POST["submit"])) {
-  $username = $_POST["username"];
-  $password = $_POST["password"];
-  $email = $_POST["email"];
+  $username = escape($_POST["username"]);
+  $password = escape($_POST["password"]);
+  $email = escape($_POST["email"]);
   if (!empty($username) && !empty($password) && !empty($email)) {
-    $username = mysqli_real_escape_string($connection, $username);
-    $password = mysqli_real_escape_string($connection, $password);
-    $email = mysqli_real_escape_string($connection, $email);
     $password = password_hash($password, PASSWORD_BCRYPT, ["cost" => 12]);
     $query = "INSERT INTO users (username, user_email, user_password) ";
     $query .= "VALUES('{$username}', '{$email}', '{$password}') ";
