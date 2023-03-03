@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.19.3",
+    "prettier": "^2.8.4"
+  },
+  "dependencies": {
+    "jquery": "^3.6.3"
+  }
+}
